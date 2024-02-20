@@ -1,16 +1,88 @@
-# csv_spread_sheets_demo
+## 自己紹介
 
-A new Flutter project.
+私の名前は [星野洸葉] です。[2003年生まれ25卒です]。
 
-## Getting Started
+**連絡先:**
 
-This project is a starting point for a Flutter application.
+* メールアドレス: [hk.careerseeker@gmail.com]
 
-A few resources to get you started if this is your first Flutter project:
+## 経験**
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+* [スタートアップ企業で1年半インターンを経験]
+* [個人開発のゲームを制作]
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+**成果:**
+
+* [商品閲覧アプリ（マイページ、カート、ポイント）]
+
+**技術:**
+
+* プログラミング言語: [dart]
+* フレームワーク: [flutter]
+
+
+**スクリーンショット/デモ:**
+
+* [デモへのリンク](https://portfolio-38486.web.app/)
+
+
+## Firestore 設計
+
+### コレクション: users
+
+#### ドキュメントID: ユーザーID
+
+ユーザーコレクション:
+  - ユーザーID (STRING, PK)
+  - ユーザー名 (STRING)
+  - cart (サブコレクション)
+  - points (NUMBER)
+  - pointHistory (ARRAY<STRING>)
+
+### コレクション: points
+
+#### ドキュメントID: 自動生成
+
+ドキュメント:
+  - ユーザーID (String)
+  - 獲得元 (String)
+  - ポイントの種類 (String)
+  - 獲得日時 (Timestamp)
+  - ポイント数 (Number)
+  - 有効期限 (Timestamp)
+  - 利用履歴 (Array of Objects)
+    - 利用日時 (Timestamp)
+    - 利用内容 (String)
+    - 利用場所 (String)
+  - 付与/利用時のメモ (String)
+  - 備考 (String)
+
+### コレクション: products
+
+#### ドキュメント: 商品ID
+
+- 商品名: "商品A"
+- 価格: $$
+
+#### ドキュメント: 商品ID
+
+- 商品名: "商品B"
+- 価格: $$
+
+#### ドキュメント: 商品ID
+
+- 商品名: "商品C"
+- 価格: $$
+
+### 関係
+
+- ユーザーは複数のポイントドキュメントを持つことができる。
+- ポイントドキュメントは、1人のユーザーに属する。
+
+## Firestore 連携
+
+Firebase Firestore/Auth を使用してユーザー情報やポイント情報を管理しています。
+
+## Google Spreadsheets 連携
+
+商品情報の管理には Google Spreadsheets と連携しています。スプレッドシートから商品情報を取得し、アプリに表示しています。
