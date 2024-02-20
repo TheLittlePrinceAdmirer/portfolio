@@ -6,12 +6,12 @@
 
 * メールアドレス: [hk.careerseeker@gmail.com]
 
-## 経験**
+**経験:**
 
 * [スタートアップ企業で1年半インターンを経験]
 * [個人開発のゲームを制作]
 
-**成果:**
+## 成果物
 
 * [商品閲覧アプリ（マイページ、カート、ポイント）]
 
@@ -19,6 +19,7 @@
 
 * プログラミング言語: [dart]
 * フレームワーク: [flutter]
+* バックエンドサービス: [Firebase]
 
 
 **スクリーンショット/デモ:**
@@ -81,7 +82,13 @@
 
 ## Firestore 連携
 
-Firebase Firestore/Auth を使用してユーザー情報やポイント情報を管理しています。
+Firebase Authentication:
+
+Firebase Authenticationを使用して、ユーザーの認証を行っています。ログインや認証情報の管理に利用しています。
+
+Firebase Cloud Functions:
+
+Firebase Cloud Functionsを使用して、バックエンドのロジックや処理を実行しています。例えば、特定のイベントが発生した際にデータを更新するなどの機能を実装しています。
 
 ## Google Spreadsheets 連携
 
