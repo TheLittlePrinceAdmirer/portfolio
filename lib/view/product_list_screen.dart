@@ -1,17 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../models/product.dart';
 import '../providers/product_provider.dart';
 
-// // providers/product_provider.dartから
-// final productListProvider = FutureProvider<List<Product>>((ref) async {
-//   // 非同期処理で商品一覧を取得
-//   final products = await _fetchProducts();
-//   return products;
-// });
-
-class ProductListScreen extends ConsumerWidget {
+class ProductListView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final productList = ref.watch(productListProvider);
