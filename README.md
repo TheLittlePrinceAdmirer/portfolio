@@ -24,7 +24,7 @@
 
 **スクリーンショット/デモ:**
 
-* [デモへのリンク](https://portfolio-38486.web.app/)
+* [デモリンク](https://portfolio-38486.web.app/)
 
 ## Firestore 設計
 
@@ -35,9 +35,10 @@
 ユーザーコレクション:
   - ユーザーID (STRING, PK)
   - ユーザー名 (STRING)
-  - cart (サブコレクション)
   - points (NUMBER)
   - pointHistory (ARRAY<STRING>)
+  - cart (サブコレクション)
+  - favoriteProducts (サブコレクション)orfavoriteProductIDs (配列)
 
 ### コレクション: points
 
@@ -64,15 +65,14 @@
 - 商品名: "商品A"
 - 価格: $$
 
-#### ドキュメント: 商品ID
-
-- 商品名: "商品B"
-- 価格: $$
+### コレクション: cart
 
 #### ドキュメント: 商品ID
 
-- 商品名: "商品C"
-- 価格: $$
+- 商品名
+- 価格
+- 数量
+- カートに追加された日時
 
 ### 関係
 
