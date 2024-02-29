@@ -36,9 +36,9 @@ class HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Portfolio'),
-      ),
+      // appBar: AppBar(
+      //   title: Text('Portfolio'),
+      // ),
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[

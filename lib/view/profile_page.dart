@@ -1,8 +1,6 @@
-import 'package:portfolio/view/login_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../providers/authentication_provider.dart';
 import 'logout_page.dart';
 import 'sign_up_page.dart';
@@ -23,31 +21,45 @@ class ProfilePage extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(signInState),
-            // ログイン状態に応じてボタンを表示
             if (user != null) ...[
-              // プロフィール編集ボタン
               Text(user.displayName ?? ''),
               Text(user.email ?? ''),
-              ElevatedButton(
+              // プロフィール編集ボタン
+              ElevatedButton.icon(
                 onPressed: () {
                   // プロフィール編集画面へ遷移
                 },
-                child: Text('プロフィール編集'),
+                icon: Icon(Icons.edit), // 編集アイコンを追加
+                label: Text('プロフィール編集'),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.white, // 白ベースのボタンにする
+                  onPrimary: Colors.black, // 文字色を黒にする
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20), // ボタンの角を丸める
+                  ),
+                ),
               ),
               // ログアウトボタン
-              ElevatedButton(
+              ElevatedButton.icon(
                 onPressed: () async {
                   // ログアウト画面へ遷移
                   Navigator.pushNamed(context, '/logout');
                 },
-                child: Text('ログアウト'),
+                icon: Icon(Icons.logout), // ログアウトアイコンを追加
+                label: Text('ログアウト'),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.white, // 白ベースのボタンにする
+                  onPrimary: Colors.black, // 文字色を黒にする
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20), // ボタンの角を丸める
+                  ),
+                ),
               ),
             ] else ...[
               // ログインボタン
               ElevatedButton(
                 onPressed: () {
                   // ログイン画面へ遷移
-
                   Navigator.pushNamed(context, '/login');
                 },
                 child: Text('ログイン'),
