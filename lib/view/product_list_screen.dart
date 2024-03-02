@@ -2,37 +2,75 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../providers/product_provider.dart';
+import '../utils/images.dart';
+import '../widgets/cart_widget.dart';
 
 class ProductListView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final productList = ref.watch(productListProvider);
+    int quantity = 1;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('商品一覧'),
       ),
       body: productList.when(
         data: (products) {
-          return ListView.builder(
+          return GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3, // 横3列
+              crossAxisSpacing: 8.0, // 横スペース
+              mainAxisSpacing: 8.0, // 縦スペース
+            ),
             itemCount: products.length,
             itemBuilder: (context, index) {
               final product = products[index];
-              return ListTile(
-                leading: Image.network(
-                  'https://osusume.mynavi.jp/uploads/article/image/5691/article_header_%E9%9D%92%E3%81%84%E8%83%8C%E6%99%AF%E3%81%AE%E4%B8%8A%E3%81%AB%E3%82%AF%E3%83%A9%E3%83%95%E3%83%88%E7%B4%99%E3%81%A8%E9%9D%92%E3%81%84%E3%83%AA%E3%83%9C%E3%83%B3%E3%81%A7%E5%8C%85%E8%A3%85%E3%81%95%E3%82%8C%E3%81%9F%E3%83%97%E3%83%AC%E3%82%BC%E3%83%B3%E3%83%88%E3%81%8C%E7%BD%AE%E3%81%84%E3%81%A6%E3%81%82%E3%82%8A%E3%81%BE%E3%81%99_%E3%81%8D%E3%82%89%E3%81%8D%E3%82%89%E3%81%A8%E3%81%97%E3%81%9F%E6%98%9F%E5%BD%A2%E3%81%AE%E3%83%A9%E3%83%A1%E3%81%8C%E6%95%A3%E3%82%89%E3%81%B0%E3%81%A3%E3%81%A6%E3%81%84%E3%81%BE%E3%81%99_.jpg', // 商品の画像のURL
-                  width: 50, // 画像の幅
-                  height: 50, // 画像の高さ
+              return ExpansionTile(
+                title: Column(
+                  children: [
+                    Image.network(
+                      imageUrl,
+                      width: 100, // 画像の幅
+                      height: 100, // 画像の高さ
+                      fit: BoxFit.cover, // 画像のフィット
+                    ),
+                    SizedBox(height: 8), // 余白
+                    Text('商品名:${product.name}'),
+                    Text('価格: ${product.price}円'),
+                  ],
                 ),
-                title: Text('商品:${product.name}'),
-                subtitle: Text('価格: ${product.price}円'),
-                onTap: () {
-                  // 商品詳細ページに遷移する処理を追加
-                },
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      QuantitySelector( // 数量選択ウィジェットを使用
+                        quantity: quantity, // 初期数量
+                        onChanged: (newQuantity) {
+                          quantity = newQuantity;
+                        },
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.shopping_cart),
+                        onPressed: () {
+                          // 購入アイコンが押された時の処理
+                        },
+                      ),
+                      SizedBox(width: 8), // 余白
+                      IconButton(
+                        icon: Icon(Icons.favorite),
+                        onPressed: () {
+                          // ライクアイコンが押された時の処理
+                        },
+                      ),
+                    ],
+                  ),
+                ],
               );
             },
           );
         },
-        loading: () => CircularProgressIndicator(),
+        loading: () => Center(child: CircularProgressIndicator()),
         error: (error, _) => Text('エラー: $error'),
       ),
       floatingActionButton: FloatingActionButton(
