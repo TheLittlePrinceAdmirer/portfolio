@@ -26,46 +26,62 @@ class ProductListView extends ConsumerWidget {
             itemCount: products.length,
             itemBuilder: (context, index) {
               final product = products[index];
-              return ExpansionTile(
-                title: Column(
+              return Card(
+                child: Column(
                   children: [
                     Image.network(
                       imageUrl,
-                      width: 100, // 画像の幅
-                      height: 100, // 画像の高さ
+                      width: MediaQuery.of(context).size.width / 6, // 画像の幅
+                      // height: MediaQuery.of(context).size.height / 3, // 画像の高さ
                       fit: BoxFit.cover, // 画像のフィット
                     ),
-                    SizedBox(height: 8), // 余白
-                    Text('商品名:${product.name}'),
-                    Text('価格: ${product.price}円'),
+                    SizedBox(height: 1), // 余白
+                    Text(
+                      '商品名: ${product.name}',
+                      style: TextStyle(fontSize: 9), // 商品名を小さくする
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          '価格: ${product.price}',
+                          style: TextStyle(fontSize: 6), // 商品名を小さくする
+                        ),
+                        const SizedBox(width: 1),
+                        IconButton(
+                          icon: Icon(Icons.favorite),
+                          onPressed: () {
+                            // ライクアイコンが押された時の処理
+                          },
+                        ),
+                        const SizedBox(width: 1),
+                        // ここではExpansionTileを使用しない
+                        //ExpansionTile(
+                        //title: Text('商品詳細'),
+                        //children: [
+                        //Row(
+                        //children: [
+                        //QuantitySelector(
+                        //// 数量選択ウィジェットを使用
+                        //quantity: quantity, // 初期数量
+                        //onChanged: (newQuantity) {
+                        //quantity = newQuantity;
+                        //},
+                        //),
+                        //const SizedBox(width: 8), // 余白
+                        //IconButton(
+                        //icon: Icon(Icons.shopping_cart),
+                        //onPressed: () {
+                        //// 購入アイコンが押された時の処理
+                        //},
+                        //),
+                        //],
+                        //),
+                        //],
+                        //),
+                      ],
+                    ),
                   ],
                 ),
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      QuantitySelector( // 数量選択ウィジェットを使用
-                        quantity: quantity, // 初期数量
-                        onChanged: (newQuantity) {
-                          quantity = newQuantity;
-                        },
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.shopping_cart),
-                        onPressed: () {
-                          // 購入アイコンが押された時の処理
-                        },
-                      ),
-                      SizedBox(width: 8), // 余白
-                      IconButton(
-                        icon: Icon(Icons.favorite),
-                        onPressed: () {
-                          // ライクアイコンが押された時の処理
-                        },
-                      ),
-                    ],
-                  ),
-                ],
               );
             },
           );
