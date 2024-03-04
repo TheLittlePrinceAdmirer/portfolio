@@ -16,10 +16,10 @@ class ProductAdmin {
   });
   factory ProductAdmin.fromJson(Map<String, dynamic> json) {
     return ProductAdmin(
-      id: json['商品ID'],
-      name: json['商品名'] ?? '',
-      price: json['価格'] ?? '',
-      imageUrl: json['imageUrl'] ?? '',
+      id: json['productId'],
+      name: json['productName'] ?? '',
+      price: json['productPrice'] ?? '',
+      imageUrl: json['productImageUrl'] ?? '',
     );
   }
 }

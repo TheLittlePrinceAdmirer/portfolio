@@ -16,7 +16,7 @@ final _productViewModel = ProductViewModel();
 
 class ProductProvider extends ChangeNotifier {
   List<Product> products = [];
-  void fetchProducts() async {
+  Future<void> fetchProducts() async {
     final products = await _productViewModel.fetchProducts();
     this.products = products;
     notifyListeners();

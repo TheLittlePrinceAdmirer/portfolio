@@ -21,10 +21,10 @@ class SpreadSheetsService {
         return data
             .skip(1) // ヘッダーをスキップ
             .map((json) => ProductAdmin.fromJson({
-                  '商品ID': json[0],
-                  '商品名': json[1],
-                  '価格': json[2],
-                  '商品画像': json[3],
+                  'productId': json[0],
+                  'productName': json[1],
+                  'productPrice': json[2],
+                  'productImageUrl': json[3],
                 }))
             .toList();
       } else {

@@ -26,13 +26,12 @@ class HomeState extends State<Home> {
     ProviderScope(
       child: ProductListView(),
     ),
-    SearchPage(),
-    CartPage(),
-    ProviderScope(
-      child: ProfilePage(),
-    ),
     ProviderScope(
       child: FavoriteProductsView(),
+    ),
+    SearchPage(),
+    ProviderScope(
+      child: ProfilePage(),
     ),
   ];
 
@@ -50,20 +49,16 @@ class HomeState extends State<Home> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            label: 'Favorites',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.search),
             label: 'Search',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
-            label: 'Cart',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
             label: 'Profile',
-          ),
-          BottomNavigationBarItem( // 新しいお気に入りページのアイテムを追加
-            icon: Icon(Icons.favorite),
-            label: 'Favorites',
           ),
         ],
         currentIndex: _selectedIndex,

@@ -87,6 +87,10 @@ class AdminPage extends ConsumerWidget {
               onPressed: () async {
                 final products = await _spreadSheetsService.fetchProducts();
                 await _firestoreService.syncProductsFromSheet(products);
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('同期を送信'),
+                    ),);
               },
               child: Text('Sync with Sheet(同期する)'), // ボタンに表示されるテキスト
             ),

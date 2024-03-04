@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Product {
   final String id;
   final String name;
-  final int price;
+  final String price;
   final String imageUrl;
 
   Product({
@@ -15,11 +15,12 @@ class Product {
 
   factory Product.fromFirestore(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+    print('data:${data}');
     return Product(
       id: doc.id,
-      name: data['name'] ?? '',
-      price: data['price'] ?? 0,
-      imageUrl: data['imageUrl'] ?? '',
+      name: data['productName'] ?? '',
+      price: data['productPrice'] ?? '',
+      imageUrl: data['productImageUrl'] ?? '',
     );
   }
   //変換

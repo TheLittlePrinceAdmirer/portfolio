@@ -41,30 +41,18 @@ class FirestoreService {
     }
   }
 
-  Future<void> addProduct(Product product) async {
-    try {
-      await _firestore.collection('products').doc(product.id).set(
-        {
-          'name': product.name,
-          'price': product.price,
-          'imageUrl': product.imageUrl,
-        },
-        SetOptions(merge: true),
-      );
-    } catch (e) {
-      print('Error adding product: $e');
-    }
-  }
-
   Future<void> syncProductsFromSheet(List<ProductAdmin> products) async {
     try {
       // productsコレクションに商品データを追加
       for (var product in products) {
-        await _firestore.collection('products').doc(product.id).set({
-          'name': product.name,
-          'price': product.price,
-          'imageUrl': product.imageUrl,
-        });
+        await _firestore.collection('products').doc(product.id).set(
+          {
+            'productName': product.name,
+            'productPrice': product.price,
+            'productImageUrl': product.imageUrl,
+          },
+          SetOptions(merge: true),
+        );
       }
     } catch (e) {
       throw Exception('Error adding products to Firestore: $e');
