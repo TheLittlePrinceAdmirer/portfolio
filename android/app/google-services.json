@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDMlHkGyDRnHg7s1aB3Kd-dY6w9XbPAi6w"
+          "current_key": "${AMDROID_API_KEY}"
         }
       ],
       "services": {
