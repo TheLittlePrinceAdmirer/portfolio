@@ -10,7 +10,6 @@ class FirestoreService {
   final String userId = FirebaseAuth.instance.currentUser?.uid ?? 'test';
   final SpreadSheetsService _spreadSheetsService = SpreadSheetsService();
   Future<void> addToFavorites(Product product) async {
-    print('${product.id}');
     try {
       final userDoc = _firestore.collection('users').doc(userId);
       final userDocSnapshot = await userDoc.get();

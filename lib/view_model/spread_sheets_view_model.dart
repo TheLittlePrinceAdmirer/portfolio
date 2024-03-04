@@ -17,7 +17,6 @@ class SpreadSheetsService {
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);
         final List<dynamic> data = jsonData['values'];
-        print('${data}');
         return data
             .skip(1) // ヘッダーをスキップ
             .map((json) => ProductAdmin.fromJson({

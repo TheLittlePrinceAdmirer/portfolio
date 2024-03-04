@@ -22,7 +22,6 @@ class FavoriteProductsViewModel extends ChangeNotifier {
         _favoriteProducts = products
             .where((product) => _favoriteProductIds.contains(product.id))
             .toList();
-        print('list${_favoriteProducts}id${favoriteIds}products${products}');
       } else {
         print('User document does not exist');
       }

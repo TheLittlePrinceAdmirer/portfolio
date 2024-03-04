@@ -10,12 +10,12 @@ import '../view_model/firestore_page_view_model.dart';
 class ProductGridView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final favoriteProductList = ref.watch(favoriteProductsProvider);
+    final productList = ref.watch(productProvider);
     final user = FirebaseAuth.instance.currentUser;
     final userId = user?.uid;
 
     // データが空の場合はリフレッシュボタンを表示
-    final isEmpty = favoriteProductList.favoriteProducts.isEmpty;
+    final isEmpty = productList.products.isEmpty;
 
     return isEmpty
         ? _buildEmptyGridView(ref, userId)
@@ -57,6 +57,12 @@ class ProductGridView extends ConsumerWidget {
                 Expanded(
                   child: Image.network(
                     product.imageUrl,
+                    loadingBuilder: (context, widget, event) {
+                      if (event == null) {
+                        return widget;
+                      }
+                      return CircularProgressIndicator();
+                    },
                     width: MediaQuery.of(context).size.width / 6,
                     fit: BoxFit.cover,
                   ),

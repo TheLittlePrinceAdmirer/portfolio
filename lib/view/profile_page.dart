@@ -11,110 +11,101 @@ class ProfilePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = FirebaseAuth.instance.currentUser;
-    final signInState = ref.watch(signInStateProvider);
+    final signInState = ref.watch(signInStateProvider).state;
     double buttonWidth = MediaQuery.of(context).size.width * 0.8;
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile'),
-        backgroundColor: Colors.grey[800], // AppBarの背景色をグレーに設定
-        elevation: 0, // AppBarの影を削除
+        backgroundColor: Colors.grey[800],
+        elevation: 0,
         actions: [
           IconButton(
-            icon: Icon(Icons.shopping_cart), // カートアイコンを追加
+            icon: Icon(Icons.shopping_cart),
             onPressed: () {
               Navigator.pushNamed(context, '/cart');
             },
           ),
         ],
       ),
-      backgroundColor: Colors.grey[200], // ページ全体の背景色をグレーに設定
+      backgroundColor: Colors.grey[200],
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               signInState,
-              style: TextStyle(color: Colors.black), // テキストの色を黒に設定
+              style: TextStyle(color: Colors.black),
             ),
             if (user != null) ...[
               Text(
                 user.displayName ?? '',
-                style: TextStyle(color: Colors.black), // テキストの色を黒に設定
+                style: TextStyle(color: Colors.black),
               ),
               Text(
                 user.email ?? '',
-                style: TextStyle(color: Colors.black), // テキストの色を黒に設定
+                style: TextStyle(color: Colors.black),
               ),
-              // プロフィール編集ボタン
               SizedBox(
                 width: buttonWidth,
                 child: ElevatedButton.icon(
-                  onPressed: () {
-                    // プロフィール編集画面へ遷移
-                  },
-                  icon: Icon(Icons.edit), // 編集アイコンを追加
-                  label: Text('プロフィール編集'),
+                  onPressed: () {},
+                  icon: Icon(Icons.edit),
+                  label: Text('Edit Profile'),
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.grey[800], // ボタンの背景色をグレーに設定
-                    onPrimary: Colors.white, // 文字色を白にする
+                    primary: Colors.grey[800],
+                    onPrimary: Colors.white,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20), // ボタンの角を丸める
+                      borderRadius: BorderRadius.circular(20),
                     ),
                   ),
                 ),
               ),
-              // ログアウトボタン
               SizedBox(
                 width: buttonWidth,
                 child: ElevatedButton.icon(
                   onPressed: () async {
-                    // ログアウト画面へ遷移
                     Navigator.pushNamed(context, '/logout');
                   },
-                  icon: Icon(Icons.logout), // ログアウトアイコンを追加
-                  label: Text('ログアウト'),
+                  icon: Icon(Icons.logout),
+                  label: Text('Logout'),
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.red, // ボタンの背景色を赤に設定
-                    onPrimary: Colors.white, // 文字色を白にする
+                    primary: Colors.red,
+                    onPrimary: Colors.white,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20), // ボタンの角を丸める
+                      borderRadius: BorderRadius.circular(20),
                     ),
                   ),
                 ),
               ),
             ] else ...[
-              // ログインボタン
               SizedBox(
                 width: buttonWidth,
                 child: ElevatedButton(
                   onPressed: () {
-                    // ログイン画面へ遷移
                     Navigator.pushNamed(context, '/login');
                   },
-                  child: Text('ログイン'),
+                  child: Text('Login'),
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.grey[800], // ボタンの背景色をグレーに設定
-                    onPrimary: Colors.white, // 文字色を白にする
+                    primary: Colors.grey[800],
+                    onPrimary: Colors.white,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20), // ボタンの角を丸める
+                      borderRadius: BorderRadius.circular(20),
                     ),
                   ),
                 ),
               ),
-              // 新規登録ボタン
               SizedBox(
                 width: buttonWidth,
                 child: ElevatedButton(
                   onPressed: () {
-                    // 新規登録画面へ遷移
                     Navigator.pushNamed(context, '/signUp');
                   },
-                  child: Text('新規登録'),
+                  child: Text('Sign Up'),
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.grey[800], // ボタンの背景色をグレーに設定
-                    onPrimary: Colors.white, // 文字色を白にする
+                    primary: Colors.grey[800],
+                    onPrimary: Colors.white,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20), // ボタンの角を丸める
+                      borderRadius: BorderRadius.circular(20),
                     ),
                   ),
                 ),
@@ -128,11 +119,11 @@ class ProfilePage extends ConsumerWidget {
                 },
                 child: Text('Admin Login'),
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.grey[800], // ボタンの背景色をグレーに設定
-                  onPrimary: Colors.white, // 文字色を白にする
+                  primary: Colors.grey[800],
+                  onPrimary: Colors.white,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20), // ボタンの角を丸める
-                    ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                 ),
               ),
             ),

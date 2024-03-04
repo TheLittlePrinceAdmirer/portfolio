@@ -55,7 +55,6 @@ class SignUpPage extends ConsumerWidget {
                   await ref
                       .read(authProvider)
                       .createAccount(email, password, ref);
-                  print('onpress:$email');
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text('登録を送信'),
