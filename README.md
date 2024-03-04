@@ -1,99 +1,96 @@
 ## 自己紹介
 
-私の名前は [星野洸葉] です。[2003年生まれ25卒です]。
+私の名前は [星野洸葉] です。[2003 年生まれ 25 卒です]。
 
 **連絡先:**
 
-* メールアドレス: [hk.careerseeker@gmail.com]
+- メールアドレス: [hk.careerseeker@gmail.com]
 
 **経験:**
 
-* [スタートアップ企業で1年半インターンを経験]
-* [個人開発のゲームを制作]
+- [スタートアップ企業で 1 年半インターンを経験]
+- [個人開発のゲームを制作]
 
 ## 成果物
 
-* [商品閲覧アプリ（マイページ、カート、ポイント）]
+- [ショッピングアプリ（マイページ、カート、ポイント..）]
 
 **技術:**
 
-* プログラミング言語: [dart]
-* フレームワーク: [flutter]
-* バックエンドサービス: [Firebase]
-
+- プログラミング言語: [dart]
+- フレームワーク: [flutter]
+- バックエンドサービス: [Firebase]
 
 **スクリーンショット/デモ:**
 
-* [デモリンク](https://portfolio-38486.web.app/)
-* [googlepreadsheetsリンク](https://docs.google.com/spreadsheets/d/1YcS2I3v2w8CouXJFQhgX5XaeYCU2koNycxSR4sV58-s/edit?pli=1#gid=0)
-
+- [デモリンク](https://portfolio-38486.web.app/)
+- [googlepreadsheets リンク](https://docs.google.com/spreadsheets/d/1YcS2I3v2w8CouXJFQhgX5XaeYCU2koNycxSR4sV58-s/edit?pli=1#gid=0)
 
 ## Firestore 設計
 
 ### コレクション: users
 
-#### ドキュメントID: ユーザーID
+#### ドキュメント ID: ユーザー ID
 
 ユーザーコレクション:
-  - ユーザーID (STRING, PK)
-  - ユーザー名 (STRING)
-  - points (NUMBER)
-  - pointHistory (ARRAY<STRING>)
-  - cart (サブコレクション)
-  - favoriteProducts (サブコレクション)orfavoriteProductIDs (配列)
 
-### コレクション: points
-
-#### ドキュメントID: 自動生成
-
-ドキュメント:
-  - ユーザーID (String)
-  - 獲得元 (String)
-  - ポイントの種類 (String)
-  - 獲得日時 (Timestamp)
-  - ポイント数 (Number)
-  - 有効期限 (Timestamp)
-  - 利用履歴 (Array of Objects)
-    - 利用日時 (Timestamp)
-    - 利用内容 (String)
-    - 利用場所 (String)
-  - 付与/利用時のメモ (String)
-  - 備考 (String)
+- ユーザー ID (STRING, PK)
+- ユーザー名 (STRING)
+- favoriteProducts (サブコレクション/ARRAY<STRING>)
+- cart (サブコレクション/ARRAY<STRING>)
+- points (NUMBER)
+- pointHistory (ARRAY<STRING>)
 
 ### コレクション: products
 
-#### ドキュメント: 商品ID
+#### ドキュメント: 商品 ID
 
-- 商品名: "商品A"
-- 価格: $$
+- 商品名: "商品 A"(String)
+- 価格: "$$"(String)
+- 商品画像: "https.."(String)
 
 ### コレクション: cart
 
-#### ドキュメント: 商品ID
+#### ドキュメント: 自動生成
 
-- 商品名
-- 価格
-- 数量
-- カートに追加された日時
+- 商品 ID(String)
+- 個数(String)
+
+### コレクション: points
+
+#### ドキュメント ID: 自動生成
+
+ドキュメント:
+
+- ユーザー ID (String)
+- 獲得元 (String)
+- ポイントの種類 (String)
+- 獲得日時 (Timestamp)
+- ポイント数 (Number)
+- 有効期限 (Timestamp)
+- 利用履歴 (Array of Objects)
+  - 利用日時 (Timestamp)
+  - 利用内容 (String)
+  - 利用場所 (String)
+- 付与/利用時のメモ (String)
+- 備考 (String)
 
 ### 関係
 
 - ユーザーは複数のポイントドキュメントを持つことができる。
-- ポイントドキュメントは、1人のユーザーに属する。
+- ポイントドキュメントは、1 人のユーザーに属する。
 
 ## Firestore 連携
 
 Firebase Authentication:
+Firebase Authentication を使用して、ユーザーの認証を行っています。ログインや認証情報の管理に利用しています。
 
-Firebase Authenticationを使用して、ユーザーの認証を行っています。ログインや認証情報の管理に利用しています。
-
-Firebase Cloud Functions:
-
-Firebase Cloud Functionsを使用して、バックエンドのロジックや処理を実行しています。例えば、特定のイベントが発生した際にデータを更新するなどの機能を実装しています。
+Firebase Firestore:
+Firebase Firestore を使用して、データベースへのデータの読み書きを行っています。
 
 ## Google Spreadsheets 連携
 
-商品情報の管理には Google Spreadsheets と連携しています。スプレッドシートから商品情報を取得し、アプリに表示しています。
+商品情報の管理には Google Spreadsheets と連携しています。管理者はスプレッドシートで商品を管理し、アプリ内の管理者ページから Firestore に同期させてアプリに反映させることができます。
 
 ## 最後に
 
