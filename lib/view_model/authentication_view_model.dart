@@ -6,7 +6,6 @@ import '../providers/authentication_provider.dart';
 
 class AuthenticationViewModel  extends ChangeNotifier{
   final FirebaseAuth _auth = FirebaseAuth.instance;
-final signInStateNotifier = ref.read(signInStateProvider);
 
   /// アカウント作成
   Future<void> createAccount(
