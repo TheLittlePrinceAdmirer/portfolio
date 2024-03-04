@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../view/admin_login_page.dart';
 import '../view/authentication_selection_page.dart';
 import '../view/cart_page_view.dart';
 import '../view/home.dart';
@@ -20,6 +21,7 @@ class Routes {
   static const String search = '/search';
   static const String cart = '/cart';
   static const String pointHistory = '/pointHistory';
+  static const String adminLoginPage = '/adminLoginPage';
 
   static final routes = {
     home: (context) => Home(),
@@ -31,5 +33,6 @@ class Routes {
     search: (context) => SearchPage(),
     cart: (context) => CartPage(),
     pointHistory: (context) => PointHistoryPage(),
+    adminLoginPage: (context) => AdminLoginPage(),
   };
 }

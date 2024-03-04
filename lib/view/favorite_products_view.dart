@@ -1,25 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../providers/product_provider.dart';
+import '../providers/favorite_products_provider.dart';
 import '../utils/images.dart';
-import '../view_model/firestore_page_view_model.dart';
-import '../widgets/cart_widget.dart';
+import '../view_model/favorite_products_view_model.dart';
 
-class ProductListView extends ConsumerWidget {
-  final FirestoreService _firestoreService = FirestoreService();
+class FavoriteProductsView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final productList = ref.watch(productProvider);
-    int quantity = 1;
+    // FavoriteProductsViewModelを取得
+    final viewModel = ref.watch(favoriteProductsViewModelProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Products'),
+        title: Text('Favorite Products'),
       ),
-      body: productList.products.isEmpty
+      body: viewModel.favoriteProducts.isEmpty
           ? Center(
-              child: Text('No products yet.'),
+              child: Text('No favorite products yet.'),
             )
           : GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -27,9 +24,9 @@ class ProductListView extends ConsumerWidget {
                 crossAxisSpacing: 8.0,
                 mainAxisSpacing: 8.0,
               ),
-              itemCount: productList.products.length,
+              itemCount: viewModel.favoriteProducts.length,
               itemBuilder: (context, index) {
-                final product = productList.products[index];
+                final product = viewModel.favoriteProducts[index];
                 return Card(
                   child: Column(
                     children: [
@@ -67,7 +64,7 @@ class ProductListView extends ConsumerWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // データを再読み込みするなどの処理を実行
-          ref.refresh(productProvider);
+          ref.refresh(favoriteProductsViewModelProvider);
         },
         child: Icon(Icons.refresh),
       ),

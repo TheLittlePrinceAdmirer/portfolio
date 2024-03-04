@@ -73,6 +73,12 @@ class ProfilePage extends ConsumerWidget {
                 child: Text('新規登録'),
               ),
             ],
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/adminLoginPage');
+              },
+              child: Text('Admin Login'),
+            ),
           ],
         ),
       ),

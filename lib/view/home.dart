@@ -6,6 +6,7 @@ import 'login_page.dart';
 import 'product_list_screen.dart';
 import 'profile_page.dart';
 import 'search_view.dart';
+import 'favorite_products_view.dart'; // お気に入りページをインポート
 
 class Home extends StatefulWidget {
   @override
@@ -25,11 +26,13 @@ class HomeState extends State<Home> {
     ProviderScope(
       child: ProductListView(),
     ),
-    
     SearchPage(),
     CartPage(),
     ProviderScope(
       child: ProfilePage(),
+    ),
+    ProviderScope(
+      child: FavoriteProductsView(),
     ),
   ];
 
@@ -57,6 +60,10 @@ class HomeState extends State<Home> {
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),
             label: 'Profile',
+          ),
+          BottomNavigationBarItem( // 新しいお気に入りページのアイテムを追加
+            icon: Icon(Icons.favorite),
+            label: 'Favorites',
           ),
         ],
         currentIndex: _selectedIndex,

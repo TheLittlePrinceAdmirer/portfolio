@@ -25,6 +25,8 @@
 **スクリーンショット/デモ:**
 
 * [デモリンク](https://portfolio-38486.web.app/)
+* [googlepreadsheetsリンク](https://docs.google.com/spreadsheets/d/1YcS2I3v2w8CouXJFQhgX5XaeYCU2koNycxSR4sV58-s/edit?pli=1#gid=0)
+
 
 ## Firestore 設計
 
