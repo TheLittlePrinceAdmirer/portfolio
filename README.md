@@ -26,13 +26,11 @@
 - [デモリンク](https://portfolio-38486.web.app/)
 - [googlepreadsheets リンク](https://docs.google.com/spreadsheets/d/1YcS2I3v2w8CouXJFQhgX5XaeYCU2koNycxSR4sV58-s/edit?pli=1#gid=0)
 
-## Firestore 設計
+## DB設計
 
 ### コレクション: users
 
 #### ドキュメント ID: ユーザー ID
-
-ユーザーコレクション:
 
 - ユーザー ID (STRING, PK)
 - ユーザー名 (STRING)
@@ -51,16 +49,19 @@
 
 ### コレクション: cart
 
-#### ドキュメント: 自動生成
+#### ドキュメント:  カートID 自動生成
 
-- 商品 ID(String)
-- 個数(String)
+- items(Array)
+  - 商品ID(String)
+  - quantity(int)
+  - size(String)
+  - color(String)
+- ユーザID(String)
+- totalPrice(String)
 
 ### コレクション: points
 
-#### ドキュメント ID: 自動生成
-
-ドキュメント:
+#### ドキュメント ID: ポイントID 自動生成
 
 - ユーザー ID (String)
 - 獲得元 (String)
