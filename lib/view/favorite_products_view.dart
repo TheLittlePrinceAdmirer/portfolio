@@ -18,19 +18,6 @@ class FavoriteProductsView extends ConsumerWidget {
       ref.read(favoriteProductsProvider).fetchFavoriteProduct(userId!, ref);
     });
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Favorite Products'),
-        backgroundColor: Colors.grey[800],
-        elevation: 0,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.shopping_cart),
-            onPressed: () {
-              Navigator.pushNamed(context, '/cart');
-            },
-          ),
-        ],
-      ),
       body: FavoriteProductsGridView(),
     );
   }

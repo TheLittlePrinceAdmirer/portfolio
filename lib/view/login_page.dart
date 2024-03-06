@@ -13,7 +13,6 @@ class LoginPage extends ConsumerWidget {
     final signInState = ref.watch(signInStateProvider);
 
     return Scaffold(
-      appBar: AppBar(title: Text('ログイン')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

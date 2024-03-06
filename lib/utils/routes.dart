@@ -7,6 +7,7 @@ import '../view/home.dart';
 import '../view/login_page.dart';
 import '../view/logout_page.dart';
 import '../view/point_history_page.dart';
+import '../view/product_detail_view.dart';
 import '../view/search_view.dart';
 import '../view/sign_up_page.dart';
 
@@ -22,6 +23,7 @@ class Routes {
   static const String cart = '/cart';
   static const String pointHistory = '/pointHistory';
   static const String adminLoginPage = '/adminLoginPage';
+  static const String productDetailPage = '/productDetailPage';
 
   static final routes = {
     home: (context) => Home(),
@@ -34,5 +36,6 @@ class Routes {
     cart: (context) => CartPage(),
     pointHistory: (context) => PointHistoryPage(),
     adminLoginPage: (context) => AdminLoginPage(),
+    productDetailPage: (context) => ProductDetailPage(productId: '',),
   };
 }

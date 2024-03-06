@@ -14,19 +14,6 @@ class ProfilePage extends ConsumerWidget {
     final signInState = ref.watch(signInStateProvider).state;
     double buttonWidth = MediaQuery.of(context).size.width * 0.8;
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Profile'),
-        backgroundColor: Colors.grey[800],
-        elevation: 0,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.shopping_cart),
-            onPressed: () {
-              Navigator.pushNamed(context, '/cart');
-            },
-          ),
-        ],
-      ),
       backgroundColor: Colors.grey[200],
       body: Center(
         child: Column(

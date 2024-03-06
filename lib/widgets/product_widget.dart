@@ -50,45 +50,50 @@ class ProductGridView extends ConsumerWidget {
         itemCount: productList.products.length,
         itemBuilder: (context, index) {
           final product = productList.products[index];
-          return Card(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Expanded(
-                  child: Image.network(
-                    product.imageUrl,
-                    loadingBuilder: (context, widget, event) {
-                      if (event == null) {
-                        return widget;
-                      }
-                      return CircularProgressIndicator();
-                    },
-                    width: MediaQuery.of(context).size.width / 6,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                SizedBox(height: 1),
-                Text(
-                  '商品名: ${product.name}',
-                  style: TextStyle(fontSize: 9),
-                ),
-                Row(
-                  children: [
-                    Text(
-                      '価格: ${product.price}',
-                      style: TextStyle(fontSize: 6),
-                    ),
-                    const SizedBox(width: 1),
-                    IconButton(
-                      icon: Icon(Icons.favorite),
-                      onPressed: () {
-                        firestoreService.addToFavorites(product);
+          return GestureDetector(
+            onTap: () {
+                    Navigator.pushNamed(context, '/productDetailPage');
+            },
+            child: Card(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Expanded(
+                    child: Image.network(
+                      product.imageUrl,
+                      loadingBuilder: (context, widget, event) {
+                        if (event == null) {
+                          return widget;
+                        }
+                        return CircularProgressIndicator();
                       },
+                      width: MediaQuery.of(context).size.width / 6,
+                      fit: BoxFit.cover,
                     ),
-                    const SizedBox(width: 1),
-                  ],
-                ),
-              ],
+                  ),
+                  SizedBox(height: 1),
+                  Text(
+                    '商品名: ${product.name}',
+                    style: TextStyle(fontSize: 9),
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        '価格: ${product.price}',
+                        style: TextStyle(fontSize: 6),
+                      ),
+                      const SizedBox(width: 1),
+                      IconButton(
+                        icon: Icon(Icons.favorite),
+                        onPressed: () {
+                          firestoreService.addToFavorites(product);
+                        },
+                      ),
+                      const SizedBox(width: 1),
+                    ],
+                  ),
+                ],
+              ),
             ),
           );
         },
