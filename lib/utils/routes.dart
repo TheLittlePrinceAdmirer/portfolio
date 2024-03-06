@@ -36,6 +36,6 @@ class Routes {
     cart: (context) => CartPage(),
     pointHistory: (context) => PointHistoryPage(),
     adminLoginPage: (context) => AdminLoginPage(),
-    productDetailPage: (context) => ProductDetailPage(productId: '',),
+    productDetailPage: (context) => ProductDetailPage(),
   };
 }

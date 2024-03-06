@@ -1,20 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ProductDetailPage extends StatelessWidget {
-  final String productId;
+import '../model/product.dart';
+import '../providers/product_id_provider.dart';
+import '../providers/product_provider.dart';
 
-  const ProductDetailPage({Key? key, required this.productId})
-      : super(key: key);
 
+class ProductDetailPage extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
-    // Fetch product details using productId and display them
+  Widget build(BuildContext context, WidgetRef ref) {
+    final productId = ref.watch(productIdProvider);
+    final product = ref.read(productProvider).getProduct(productId);
+
+
+    // 商品情報がない場合の処理
+    if (productId == null) {
+      return Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
     return Scaffold(
       body: Column(
         children: [
           Expanded(
             child: Center(
-              child: Text('Product ID: $productId'),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('商品名: ${product.name}'),
+                  Text('価格: ${product.price}'),
+                  // ... その他の表示項目
+                ],
+              ),
             ),
           ),
           Container(
@@ -25,16 +45,21 @@ class ProductDetailPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: IconButton(
-                    onPressed: () {
-                      // Add to cart functionality
-                    },
-                    icon: Icon(Icons.shopping_cart),
+                  child: Row(
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          // カートに追加機能
+                        },
+                        icon: Icon(Icons.shopping_cart),
+                      ),
+                      Text('カートに入れる'),
+                    ],
                   ),
                 ),
                 IconButton(
                   onPressed: () {
-                    // Add to favorites functionality
+                    // お気に入りに追加機能
                   },
                   icon: Icon(Icons.favorite_border),
                 ),
