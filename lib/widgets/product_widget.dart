@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../providers/favorite_products_provider.dart';
 import '../model/product.dart';
+import '../providers/product_id_provider.dart';
 import '../providers/product_provider.dart';
 import '../view_model/favorite_products_view_model.dart';
 import '../view_model/firestore_page_view_model.dart';
@@ -36,6 +37,7 @@ class ProductGridView extends ConsumerWidget {
   Widget _buildGridView(WidgetRef ref, String? userId) {
     final productList = ref.watch(productProvider);
     final FirestoreService firestoreService = FirestoreService();
+    final productId = ref.watch(productIdProvider.notifier);
 
     return RefreshIndicator(
       onRefresh: () async {
@@ -50,45 +52,51 @@ class ProductGridView extends ConsumerWidget {
         itemCount: productList.products.length,
         itemBuilder: (context, index) {
           final product = productList.products[index];
-          return Card(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Expanded(
-                  child: Image.network(
-                    product.imageUrl,
-                    loadingBuilder: (context, widget, event) {
-                      if (event == null) {
-                        return widget;
-                      }
-                      return CircularProgressIndicator();
-                    },
-                    width: MediaQuery.of(context).size.width / 6,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                SizedBox(height: 1),
-                Text(
-                  '商品名: ${product.name}',
-                  style: TextStyle(fontSize: 9),
-                ),
-                Row(
-                  children: [
-                    Text(
-                      '価格: ${product.price}',
-                      style: TextStyle(fontSize: 6),
-                    ),
-                    const SizedBox(width: 1),
-                    IconButton(
-                      icon: Icon(Icons.favorite),
-                      onPressed: () {
-                        firestoreService.addToFavorites(product);
+          return GestureDetector(
+            onTap: () {
+              productId.state = product.id;
+              Navigator.pushNamed(context, '/productDetailPage');
+            },
+            child: Card(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Expanded(
+                    child: Image.network(
+                      product.imageUrl,
+                      loadingBuilder: (context, widget, event) {
+                        if (event == null) {
+                          return widget;
+                        }
+                        return CircularProgressIndicator();
                       },
+                      width: MediaQuery.of(context).size.width / 6,
+                      fit: BoxFit.cover,
                     ),
-                    const SizedBox(width: 1),
-                  ],
-                ),
-              ],
+                  ),
+                  SizedBox(height: 1),
+                  Text(
+                    '商品名: ${product.name}',
+                    style: TextStyle(fontSize: 9),
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        '価格: ${product.price}',
+                        style: TextStyle(fontSize: 6),
+                      ),
+                      const SizedBox(width: 1),
+                      IconButton(
+                        icon: Icon(Icons.favorite),
+                        onPressed: () {
+                          firestoreService.addToFavorites(product);
+                        },
+                      ),
+                      const SizedBox(width: 1),
+                    ],
+                  ),
+                ],
+              ),
             ),
           );
         },

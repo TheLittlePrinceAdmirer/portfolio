@@ -34,13 +34,16 @@ class HomeState extends State<Home> {
       child: ProfilePage(),
     ),
   ];
+  final _pageTitles = [
+  'Product',
+  'Favorites',
+  'Search',
+  'Profile',
+];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('Portfolio'),
-      // ),
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[

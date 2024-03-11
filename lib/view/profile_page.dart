@@ -12,28 +12,17 @@ class ProfilePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final user = FirebaseAuth.instance.currentUser;
     final signInState = ref.watch(signInStateProvider).state;
+    // final authState = ref.watch(authStateProvider);
+    final authState = ref.watch(authProvider);
     double buttonWidth = MediaQuery.of(context).size.width * 0.8;
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Profile'),
-        backgroundColor: Colors.grey[800],
-        elevation: 0,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.shopping_cart),
-            onPressed: () {
-              Navigator.pushNamed(context, '/cart');
-            },
-          ),
-        ],
-      ),
       backgroundColor: Colors.grey[200],
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              signInState,
+              authState,
               style: TextStyle(color: Colors.black),
             ),
             if (user != null) ...[

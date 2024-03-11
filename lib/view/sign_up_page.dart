@@ -11,6 +11,9 @@ class SignUpPage extends ConsumerWidget {
     final TextEditingController _passwordController = TextEditingController();
     final TextEditingController _confirmPasswordController =
         TextEditingController();
+
+    final authState = ref.watch(authProvider);
+    final authNotifier = ref.watch(authProvider.notifier);
     return Scaffold(
       appBar: AppBar(
         title: Text('アカウント作成'),
@@ -21,7 +24,7 @@ class SignUpPage extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text('message:$signInState'),
+            Text('message:$authState'),
             TextField(
               controller: _emailController,
               decoration: InputDecoration(
@@ -49,17 +52,29 @@ class SignUpPage extends ConsumerWidget {
               onPressed: () async {
                 if (_passwordController.text ==
                     _confirmPasswordController.text) {
-                  final email = _emailController.text;
-                  final password = _passwordController.text;
-
-                  await ref
-                      .read(authProvider)
-                      .createAccount(email, password, ref);
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('登録を送信'),
+                      content: Text('アカウント情報を送信'),
                     ),
                   );
+
+                  final email = _emailController.text;
+                  final password = _passwordController.text;
+                  await authNotifier.createAccount(email, password);
+                  final authState = ref.watch(authProvider);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(authState),
+                    ),
+                  );
+                  if (authState == 'アカウント作成に成功しました') {
+                    // ignore: use_build_context_synchronously
+                    Navigator.pushNamed(context, '/home');
+                  }
+
+                  // await ref
+                  //     .read(authProvider)
+                  //     .createAccount(email, password, ref);
                 } else {
                   // パスワードが一致しない場合のエラー処理
                   ScaffoldMessenger.of(context).showSnackBar(
