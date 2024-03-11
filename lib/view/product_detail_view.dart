@@ -10,7 +10,8 @@ class ProductDetailPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final productId = ref.watch(productIdProvider);
-    final product = ref.read(productProvider).getProduct(productId);
+    // final product = ref.read(productProvider).getProduct(productId);
+    final product = ref.read(productProvider);
 
 
     // 商品情報がない場合の処理
@@ -30,8 +31,8 @@ class ProductDetailPage extends ConsumerWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('商品名: ${product.name}'),
-                  Text('価格: ${product.price}'),
+                  Text('商品名: ${product.products[0].name}'),
+                  Text('価格: ${product.products[0].price}'),
                   // ... その他の表示項目
                 ],
               ),

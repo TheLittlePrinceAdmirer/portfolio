@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../providers/authentication_provider.dart';
 
-class AuthenticationViewModel  extends ChangeNotifier{
+class AuthenticationViewModel extends ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   /// アカウント作成
@@ -16,13 +16,13 @@ class AuthenticationViewModel  extends ChangeNotifier{
         email: email,
         password: password,
       );
-      print('success:$email');
 
       /// ユーザ情報の更新
       ref.read(userProvider.state).state = credential.user;
 
       /// 画面に表示
       ref.read(signInStateProvider).state = 'アカウント作成に成功しました!';
+      ref.watch(authStateProvider.notifier).state = 'アカウント作成に成功しました!';
     }
 
     /// アカウントに失敗した場合のエラー処理
@@ -48,18 +48,22 @@ class AuthenticationViewModel  extends ChangeNotifier{
   }
 
   /// ログイン
-  Future<void> signIn(String email, String password, WidgetRef ref) async {
+  Future<void> signIn(String email, String password, WidgetRef ref,
+      BuildContext context) async {
     try {
       /// credential にはログイン情報が記録される
       final credential = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-      print('try:$email');
 
       /// ユーザ情報の更新
       ref.read(userProvider.state).state = credential.user;
       ref.read(signInStateProvider).state = 'ログイン成功しました!';
+      ref.watch(authStateProvider.notifier).state = 'ログイン成功しました!';
+      // print("${ref.watch(authStateProvider)}");
+      // ignore: use_build_context_synchronously
+      Navigator.pushNamed(context, '/home');
     }
 
     /// ログイン失敗時のエラー処理
