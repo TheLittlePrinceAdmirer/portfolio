@@ -11,8 +11,6 @@ class ProfilePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = FirebaseAuth.instance.currentUser;
-    final signInState = ref.watch(signInStateProvider).state;
-    // final authState = ref.watch(authStateProvider);
     final authState = ref.watch(authProvider);
     double buttonWidth = MediaQuery.of(context).size.width * 0.8;
     return Scaffold(

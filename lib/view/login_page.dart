@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../providers/authentication_provider.dart';
-import '../view_model/authentication_view_model.dart';
 import '../widgets/snackbar_widget.dart';
 
 class LoginPage extends ConsumerWidget {
@@ -11,8 +10,6 @@ class LoginPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final emailController = TextEditingController();
     final passwordController = TextEditingController();
-    final signInState = ref.watch(signInStateProvider);
-    // final authState = ref.watch(authStateProvider);
     final authState = ref.watch(authProvider);
     final authNotifier = ref.watch(authProvider.notifier);
 
@@ -37,7 +34,6 @@ class LoginPage extends ConsumerWidget {
             ElevatedButton(
               onPressed: () async {
                 // ignore: use_build_context_synchronously
-                // ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text('ログイン情報送信'),
@@ -45,17 +41,11 @@ class LoginPage extends ConsumerWidget {
                 );
                 final email = emailController.text;
                 final password = passwordController.text;
-                // await ref
-                //     .read(authProvider)
-                //     .signIn(email, password, ref, context);
                 //完了を待機
                 await authNotifier.signIn(email, password);
                 // authProviderを使って状態を監視し、変更あるか
                 final authState = ref.watch(authProvider);
-
-                // final lastSnackBar = SnackBar(content: Text(authState));
                 // ignore: use_build_context_synchronously
-                // ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(authState),

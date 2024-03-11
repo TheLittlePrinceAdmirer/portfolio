@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/authentication_provider.dart';
-import '../view_model/authentication_view_model.dart';
 
 class SignUpPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final signInState = ref.watch(signInStateProvider);
     final TextEditingController _emailController = TextEditingController();
     final TextEditingController _passwordController = TextEditingController();
     final TextEditingController _confirmPasswordController =
@@ -71,10 +69,6 @@ class SignUpPage extends ConsumerWidget {
                     // ignore: use_build_context_synchronously
                     Navigator.pushNamed(context, '/home');
                   }
-
-                  // await ref
-                  //     .read(authProvider)
-                  //     .createAccount(email, password, ref);
                 } else {
                   // パスワードが一致しない場合のエラー処理
                   ScaffoldMessenger.of(context).showSnackBar(
