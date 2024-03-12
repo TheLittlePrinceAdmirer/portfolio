@@ -10,12 +10,6 @@ class CartPage extends StatelessWidget {
         backgroundColor: Colors.grey[800], // AppBarの背景色をグレーに設定
         elevation: 0, // AppBarの影を削除
         actions: [
-          // IconButton(
-          //   icon: Icon(Icons.shopping_cart), // カートアイコンを追加
-          //   onPressed: () {
-          //     Navigator.pushNamed(context, '/cart');
-          //   },
-          // ),
         ],
       ),
       body: Center(

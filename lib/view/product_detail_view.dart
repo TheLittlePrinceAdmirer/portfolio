@@ -1,17 +1,21 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../model/product.dart';
+import '../providers/cart_provider.dart';
 import '../providers/product_id_provider.dart';
 import '../providers/product_provider.dart';
-
+import '../widgets/cart_widget.dart';
 
 class ProductDetailPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final productId = ref.watch(productIdProvider);
     final product = ref.read(productProvider);
-
+    final quantity = ref.watch(quantityProvider);
+    final selectedProduct = product.products[int.parse(productId!)];
+    final userId = FirebaseAuth.instance.currentUser?.uid;
 
     // 商品情報がない場合の処理
     if (productId == null) {
@@ -30,9 +34,16 @@ class ProductDetailPage extends ConsumerWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('商品名: ${product.products[0].name}'),
-                  Text('価格: ${product.products[0].price}'),
+                  Text('商品名: ${selectedProduct.name}'),
+                  Text('価格: ${selectedProduct.price}'),
                   // ... その他の表示項目
+                  SizedBox(height: 20),
+                  QuantitySelector(
+                    quantity: quantity,
+                    onChanged: (value) {
+                      ref.read(quantityProvider.notifier).state = value;
+                    },
+                  ),
                 ],
               ),
             ),
@@ -49,7 +60,21 @@ class ProductDetailPage extends ConsumerWidget {
                     children: [
                       IconButton(
                         onPressed: () {
-                          // カートに追加機能
+                          if (userId == null) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                    'Unable to add item to cart due to unreadable login information.'),
+                              ),
+                            );
+                          } else {
+                            // カートに追加機能
+                            ref.read(cartViewModelProvider.notifier).addToCart(
+                                  userId, // ユーザーIDを取得
+                                  productId, // 商品IDを取得
+                                  quantity, // 選択された数量を取得
+                                );
+                          }
                         },
                         icon: Icon(Icons.shopping_cart),
                       ),
