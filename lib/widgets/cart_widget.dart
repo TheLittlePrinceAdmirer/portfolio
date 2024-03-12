@@ -1,92 +1,99 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../model/cart_item_model.dart';
 import '../model/product.dart';
+import '../providers/cart_provider.dart';
 import '../providers/product_provider.dart';
 
 class CartProductGridView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final productList = ref.watch(productProvider);
-
+    final cartList = ref.watch(cartProvider);
+    final user = FirebaseAuth.instance.currentUser;
+    final userId = user?.uid;
     // Data check for empty list
     final isEmpty = productList.products.isEmpty;
 
     return isEmpty
-        ? _buildEmptyGridView(ref, userId)
-        : _buildGridView(productList);
+        ? _buildEmptyListView(ref, userId)
+        : _buildListView(productList,cartList,ref);
   }
 
-  Widget _buildEmptyGridView(WidgetRef ref, String? userId) {
+  Widget _buildEmptyListView(WidgetRef ref, String? userId) {
     return Center(
       child: ElevatedButton(
-        onPressed: () {
-          //カート取得メソッド呼ぶ
+        onPressed: () async {
+          await ref.read(cartProvider.notifier).getCart(userId!);
         },
         child: Text('Refresh'),
       ),
     );
   }
 
-  Widget _buildProductList(final List<Product> productList) {
+  Widget _buildListView(productList,cartList, WidgetRef ref) {
+    final productIds = cartList.products.keys.toList();
+
     return RefreshIndicator(
       onRefresh: () async {
-        // Implement refresh logic to fetch new data if needed
-        // カート取得メソッド呼ぶ
+        await ref.read(cartProvider.notifier).getCart(cartList.userId);
       },
       child: ListView.builder(
-        itemCount: productList.length,
+        itemCount: productIds.length,
         itemBuilder: (context, index) {
-          final product = productList[index];
-          return Card(
-            child: ListTile(
-              leading: SizedBox(
-                width: MediaQuery.of(context).size.width / 3,
-                child: Image.network(
-                  product.imageUrl,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              title: Text(
-                product.name,
-                style: TextStyle(fontSize: 16),
-              ),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Price: ${product.price}',
-                    style: TextStyle(fontSize: 14),
-                  ),
-                  Text(
-                    'Size: ${product.size}',
-                    style: TextStyle(fontSize: 14),
-                  ),
-                  Text(
-                    'Color: ${product.color}',
-                    style: TextStyle(fontSize: 14),
-                  ),
-                ],
-              ),
-              trailing: SizedBox(
-                width: 100, // Adjust as needed
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    QuantitySelector(
-                    quantity: quantity,
-                    onChanged: (value) {
-                      //quantityプロバイダの値を更新
-                      ref.read(quantityProvider.notifier).state = value;
-                    },
-                  ),
-                  ],
-                ),
-              ),
-            ),
-          );
+          final productId = productIds[index];
+          final product = productList.firstWhere(
+              (product) => product.id == productId,
+              orElse: () => null);
+
+          return product != null
+              ? _buildCartItemTile(product, cartList.products[productId]!)
+              : SizedBox();
         },
+      ),
+    );
+  }
+
+  Widget _buildCartItemTile(Product product, CartItem cartItem) {
+    return Card(
+      child: ListTile(
+        leading: SizedBox(
+          width: 100,
+          child: Image.network(
+            product.imageUrl,
+            fit: BoxFit.cover,
+          ),
+        ),
+        title: Text(
+          product.name,
+          style: TextStyle(fontSize: 16),
+        ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Price: ${product.price}',
+              style: TextStyle(fontSize: 14),
+            ),
+            Text(
+              'Size: ${cartItem.size ?? 'N/A'}',
+              style: TextStyle(fontSize: 14),
+            ),
+            Text(
+              'Color: ${cartItem.color ?? 'N/A'}',
+              style: TextStyle(fontSize: 14),
+            ),
+          ],
+        ),
+        trailing: QuantitySelector(
+          quantity: cartItem.quantity,
+          onChanged: (value) {
+            // 更新された数量を反映するロジックを実装する
+          },
+        ),
       ),
     );
   }

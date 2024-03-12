@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:portfolio/model/product.dart';
 
+import '../model/cart_item_model.dart';
 import '../providers/cart_provider.dart';
 
 class CartViewModel extends StateNotifier<CartState> {
