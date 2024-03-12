@@ -11,14 +11,15 @@ import '../widgets/cart_widget.dart';
 class ProductDetailPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final productId = ref.watch(productIdProvider);
+    final productId = ref.read(productIdProvider);
     final product = ref.read(productProvider);
-    final quantity = ref.watch(quantityProvider);
-    final selectedProduct = product.products[int.parse(productId!)];
+    final quantity = ref.read(quantityProvider);
+    final selectedProduct =
+        productId != "" ? product.products[int.parse(productId)] : null;
     final userId = FirebaseAuth.instance.currentUser?.uid;
 
     // 商品情報がない場合の処理
-    if (productId == null) {
+    if (productId == "") {
       return Scaffold(
         body: Center(
           child: CircularProgressIndicator(),
@@ -34,8 +35,8 @@ class ProductDetailPage extends ConsumerWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('商品名: ${selectedProduct.name}'),
-                  Text('価格: ${selectedProduct.price}'),
+                  Text('商品名: ${selectedProduct?.name}'),
+                  Text('価格: ${selectedProduct?.price}'),
                   // ... その他の表示項目
                   SizedBox(height: 20),
                   QuantitySelector(

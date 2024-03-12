@@ -33,6 +33,6 @@ class Routes {
     cart: (context) => CartPage(),
     pointHistory: (context) => PointHistoryPage(),
     adminLoginPage: (context) => AdminLoginPage(),
-    productDetailPage: (context) => ProductDetailPage(),
+    productDetailPage: (context) => ProviderScope(child: ProductDetailPage()),
   };
 }

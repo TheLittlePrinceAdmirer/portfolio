@@ -37,7 +37,6 @@ class ProductGridView extends ConsumerWidget {
   Widget _buildGridView(WidgetRef ref, String? userId) {
     final productList = ref.watch(productProvider);
     final FirestoreService firestoreService = FirestoreService();
-    final productId = ref.watch(productIdProvider.notifier);
 
     return RefreshIndicator(
       onRefresh: () async {
@@ -53,8 +52,8 @@ class ProductGridView extends ConsumerWidget {
         itemBuilder: (context, index) {
           final product = productList.products[index];
           return GestureDetector(
-            onTap: () {
-              productId.state = product.id;
+            onTap: () async {
+              ref.read(productIdProvider.notifier).setProductId(product.id);
               Navigator.pushNamed(context, '/productDetailPage');
             },
             child: Card(

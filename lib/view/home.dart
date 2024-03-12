@@ -44,6 +44,19 @@ class HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(_pageTitles[_selectedIndex]),
+        backgroundColor: Colors.grey[800], // AppBarの背景色をグレーに設定
+        elevation: 0, // AppBarの影を削除
+        actions: [
+          IconButton(
+            icon: Icon(Icons.shopping_cart), // カートアイコンを追加
+            onPressed: () {
+              Navigator.pushNamed(context, '/cart');
+            },
+          ),
+        ],
+      ),
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[

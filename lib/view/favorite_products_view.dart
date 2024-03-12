@@ -15,7 +15,9 @@ class FavoriteProductsView extends ConsumerWidget {
     final userId = user?.uid;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(productProvider).fetchProducts();
-      ref.read(favoriteProductsProvider).fetchFavoriteProduct(userId!, ref);
+      if (userId != null) {
+        ref.read(favoriteProductsProvider).fetchFavoriteProduct(userId, ref);
+      }
     });
     return Scaffold(
       body: FavoriteProductsGridView(),
