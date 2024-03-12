@@ -16,7 +16,6 @@ class ProductListView extends ConsumerWidget {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(productProvider).fetchProducts();
     });
-    int quantity = 1;
     return Scaffold(
       body: ProductGridView(),
     );

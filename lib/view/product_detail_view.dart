@@ -10,7 +10,6 @@ class ProductDetailPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final productId = ref.watch(productIdProvider);
-    // final product = ref.read(productProvider).getProduct(productId);
     final product = ref.read(productProvider);
 
 
