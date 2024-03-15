@@ -16,11 +16,14 @@ class CartProductGridView extends ConsumerWidget {
     final user = FirebaseAuth.instance.currentUser;
     final userId = user?.uid;
     // Data check for empty list
-    final isEmpty = productList.products.isEmpty;
-
-    return isEmpty
-        ? _buildEmptyListView(ref, userId)
-        : _buildListView(productList,cartList,ref);
+    // final isEmpty = productList.products.isEmpty;
+    if (cartList != null) {
+      // カートが空の場合の処理
+      return _buildEmptyListView(ref, userId);
+    } else {
+      // カートにアイテムがある場合の処理
+      return _buildListView(productList, cartList, ref);
+    }
   }
 
   Widget _buildEmptyListView(WidgetRef ref, String? userId) {
@@ -28,18 +31,20 @@ class CartProductGridView extends ConsumerWidget {
       child: ElevatedButton(
         onPressed: () async {
           await ref.read(cartProvider.notifier).getCart(userId!);
+          ref.read(productProvider).fetchProducts();
         },
         child: Text('Refresh'),
       ),
     );
   }
 
-  Widget _buildListView(productList,cartList, WidgetRef ref) {
-    final productIds = cartList.products.keys.toList();
+  Widget _buildListView(productList, cartList, WidgetRef ref) {
+    final productIds = cartList!.products.keys.toList();
 
     return RefreshIndicator(
       onRefresh: () async {
         await ref.read(cartProvider.notifier).getCart(cartList.userId);
+        ref.read(productProvider).fetchProducts();
       },
       child: ListView.builder(
         itemCount: productIds.length,

@@ -30,7 +30,7 @@ class Routes {
     logout: (context) => ProviderScope(child: LogoutPage()),
     profilePage: (context) => ProviderScope(child: ProfilePage()),
     search: (context) => SearchPage(),
-    cart: (context) => CartPage(),
+    cart: (context) => ProviderScope(child: CartPage()),
     pointHistory: (context) => PointHistoryPage(),
     adminLoginPage: (context) => AdminLoginPage(),
     productDetailPage: (context) => ProviderScope(child: ProductDetailPage()),

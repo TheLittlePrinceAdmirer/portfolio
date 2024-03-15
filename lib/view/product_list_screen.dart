@@ -9,13 +9,9 @@ import '../widgets/product_widget.dart';
 
 class ProductListView extends ConsumerWidget {
   final FirestoreService _firestoreService = FirestoreService();
-  
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    //最初のビルド時
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(productProvider).fetchProducts();
-    });
     return Scaffold(
       body: ProductGridView(),
     );

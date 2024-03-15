@@ -11,6 +11,9 @@ import '../view_model/firestore_page_view_model.dart';
 class ProductGridView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(productProvider).fetchProducts();
+    });
     final productList = ref.watch(productProvider);
     final user = FirebaseAuth.instance.currentUser;
     final userId = user?.uid;
@@ -20,7 +23,7 @@ class ProductGridView extends ConsumerWidget {
 
     return isEmpty
         ? _buildEmptyGridView(ref, userId)
-        : _buildGridView(ref, userId);
+        : _buildGridView(ref, userId, productList);
   }
 
   Widget _buildEmptyGridView(WidgetRef ref, String? userId) {
@@ -34,8 +37,7 @@ class ProductGridView extends ConsumerWidget {
     );
   }
 
-  Widget _buildGridView(WidgetRef ref, String? userId) {
-    final productList = ref.watch(productProvider);
+  Widget _buildGridView(WidgetRef ref, String? userId, productList) {
     final FirestoreService firestoreService = FirestoreService();
 
     return RefreshIndicator(
@@ -54,7 +56,14 @@ class ProductGridView extends ConsumerWidget {
           return GestureDetector(
             onTap: () async {
               ref.read(productIdProvider.notifier).setProductId(product.id);
-              Navigator.pushNamed(context, '/productDetailPage');
+              Navigator.pushNamed(
+                context,
+                '/productDetailPage',
+                arguments: {
+                  'productId': product.id, // 商品IDを渡す
+                  'productList': productList.products, // 商品リストを渡す
+                },
+              );
             },
             child: Card(
               child: Column(
