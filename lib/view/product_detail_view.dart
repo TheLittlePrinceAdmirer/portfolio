@@ -20,6 +20,7 @@ class ProductDetailPage extends ConsumerWidget {
       (product) => product.id == productId,
       orElse: () => Product.empty(),
     );
+
     final quantity = ref.read(quantityProvider);
     final userId = FirebaseAuth.instance.currentUser?.uid;
     // 商品情報がない場合の処理
@@ -63,7 +64,7 @@ class ProductDetailPage extends ConsumerWidget {
                   child: Row(
                     children: [
                       IconButton(
-                        onPressed: () {
+                        onPressed: () async {
                           if (userId == null) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
@@ -73,11 +74,19 @@ class ProductDetailPage extends ConsumerWidget {
                             );
                           } else {
                             // カートに追加機能
-                            ref.read(cartViewModelProvider.notifier).addToCart(
+                            await ref
+                                .read(cartViewModelProvider.notifier)
+                                .addToCart(
                                   userId, // ユーザーIDを取得
                                   productId, // 商品IDを取得
                                   quantity, // 選択された数量を取得
                                 );
+                            // ignore: use_build_context_synchronously
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Send to add item to cart'),
+                              ),
+                            );
                           }
                         },
                         icon: Icon(Icons.shopping_cart),

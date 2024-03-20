@@ -14,7 +14,7 @@ class CartPage extends ConsumerWidget {
     //最初のビルド時
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(cartProvider.notifier).getCart(userId!);
-      ref.read(productProvider).fetchProducts();
+      // ref.read(productProvider).fetchProducts();
     });
     return Scaffold(
       appBar: AppBar(

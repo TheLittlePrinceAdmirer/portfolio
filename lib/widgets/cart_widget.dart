@@ -31,7 +31,7 @@ class CartProductGridView extends ConsumerWidget {
       child: ElevatedButton(
         onPressed: () async {
           await ref.read(cartProvider.notifier).getCart(userId!);
-          ref.read(productProvider).fetchProducts();
+          // ref.read(productProvider).fetchProducts();
         },
         child: Text('Refresh'),
       ),
@@ -44,7 +44,7 @@ class CartProductGridView extends ConsumerWidget {
     return RefreshIndicator(
       onRefresh: () async {
         await ref.read(cartProvider.notifier).getCart(cartList.userId);
-        ref.read(productProvider).fetchProducts();
+        // ref.read(productProvider).fetchProducts();
       },
       child: ListView.builder(
         itemCount: productIds.length,

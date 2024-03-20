@@ -11,15 +11,15 @@ import '../view_model/firestore_page_view_model.dart';
 class ProductGridView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(productProvider).fetchProducts();
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   ref.read(productProvider).fetchProducts();
+    // });
     final productList = ref.watch(productProvider);
     final user = FirebaseAuth.instance.currentUser;
     final userId = user?.uid;
 
     // データが空の場合はリフレッシュボタンを表示
-    final isEmpty = productList.products.isEmpty;
+    final isEmpty = productList.isEmpty;
 
     return isEmpty
         ? _buildEmptyGridView(ref, userId)
@@ -30,7 +30,7 @@ class ProductGridView extends ConsumerWidget {
     return Center(
       child: ElevatedButton(
         onPressed: () {
-          ref.read(productProvider).fetchProducts();
+          // ref.read(productProvider).fetchProducts();
         },
         child: Text('Refresh'),
       ),
@@ -42,7 +42,7 @@ class ProductGridView extends ConsumerWidget {
 
     return RefreshIndicator(
       onRefresh: () async {
-        ref.read(productProvider).fetchProducts();
+        // ref.read(productProvider).fetchProducts();
       },
       child: GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -50,9 +50,9 @@ class ProductGridView extends ConsumerWidget {
           crossAxisSpacing: 8.0,
           mainAxisSpacing: 8.0,
         ),
-        itemCount: productList.products.length,
+        itemCount: productList.length,
         itemBuilder: (context, index) {
-          final product = productList.products[index];
+          final product = productList[index];
           return GestureDetector(
             onTap: () async {
               ref.read(productIdProvider.notifier).setProductId(product.id);
@@ -61,7 +61,7 @@ class ProductGridView extends ConsumerWidget {
                 '/productDetailPage',
                 arguments: {
                   'productId': product.id, // 商品IDを渡す
-                  'productList': productList.products, // 商品リストを渡す
+                  'productList': productList, // 商品リストを渡す
                 },
               );
             },
