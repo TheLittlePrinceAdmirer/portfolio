@@ -36,7 +36,7 @@ class FavoriteProductsGridView extends ConsumerWidget {
     final favoriteProductList = ref.watch(favoriteProductsProvider);
     return RefreshIndicator(
       onRefresh: () async {
-        await ref.read(productProvider).fetchProducts();
+        // await ref.read(productProvider).fetchProducts();
         await ref
             .read(favoriteProductsProvider)
             .fetchFavoriteProduct(userId!, ref);

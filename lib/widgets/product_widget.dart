@@ -11,37 +11,38 @@ import '../view_model/firestore_page_view_model.dart';
 class ProductGridView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   ref.read(productProvider).fetchProducts();
+    // });
     final productList = ref.watch(productProvider);
     final user = FirebaseAuth.instance.currentUser;
     final userId = user?.uid;
 
     // データが空の場合はリフレッシュボタンを表示
-    final isEmpty = productList.products.isEmpty;
+    final isEmpty = productList.isEmpty;
 
     return isEmpty
         ? _buildEmptyGridView(ref, userId)
-        : _buildGridView(ref, userId);
+        : _buildGridView(ref, userId, productList);
   }
 
   Widget _buildEmptyGridView(WidgetRef ref, String? userId) {
     return Center(
       child: ElevatedButton(
         onPressed: () {
-          ref.read(productProvider).fetchProducts();
+          // ref.read(productProvider).fetchProducts();
         },
         child: Text('Refresh'),
       ),
     );
   }
 
-  Widget _buildGridView(WidgetRef ref, String? userId) {
-    final productList = ref.watch(productProvider);
+  Widget _buildGridView(WidgetRef ref, String? userId, productList) {
     final FirestoreService firestoreService = FirestoreService();
-    final productId = ref.watch(productIdProvider.notifier);
 
     return RefreshIndicator(
       onRefresh: () async {
-        ref.read(productProvider).fetchProducts();
+        // ref.read(productProvider).fetchProducts();
       },
       child: GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -49,13 +50,20 @@ class ProductGridView extends ConsumerWidget {
           crossAxisSpacing: 8.0,
           mainAxisSpacing: 8.0,
         ),
-        itemCount: productList.products.length,
+        itemCount: productList.length,
         itemBuilder: (context, index) {
-          final product = productList.products[index];
+          final product = productList[index];
           return GestureDetector(
-            onTap: () {
-              productId.state = product.id;
-              Navigator.pushNamed(context, '/productDetailPage');
+            onTap: () async {
+              ref.read(productIdProvider.notifier).setProductId(product.id);
+              Navigator.pushNamed(
+                context,
+                '/productDetailPage',
+                arguments: {
+                  'productId': product.id, // 商品IDを渡す
+                  'productList': productList, // 商品リストを渡す
+                },
+              );
             },
             child: Card(
               child: Column(

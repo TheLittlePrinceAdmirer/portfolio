@@ -18,7 +18,7 @@ class FavoriteProductsViewModel extends ChangeNotifier {
         final List<dynamic> favoriteIds = userDocSnapshot.data()!['favorites'];
         _favoriteProductIds = List<String>.from(favoriteIds);
         final productList = ref.watch(productProvider);
-        final products = productList.products;
+        final products = productList;
         _favoriteProducts = products
             .where((product) => _favoriteProductIds.contains(product.id))
             .toList();

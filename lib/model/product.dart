@@ -31,4 +31,13 @@ class Product {
       imageUrl: imageUrl,
     );
   }
+  static Product empty() {
+    return Product(
+      id: '',
+      name: '',
+      price: '',
+      imageUrl: '',
+      // その他のプロパティにデフォルト値を設定
+    );
+  }
 }
