@@ -9,13 +9,6 @@ import '../widgets/cart_widget.dart';
 class CartPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = FirebaseAuth.instance.currentUser;
-    final userId = user?.uid;
-    //最初のビルド時
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(cartProvider.notifier).getCart(userId!);
-      // ref.read(productProvider).fetchProducts();
-    });
     return Scaffold(
       appBar: AppBar(
         title: Text('Cart'),

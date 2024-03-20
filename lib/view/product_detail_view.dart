@@ -39,8 +39,21 @@ class ProductDetailPage extends ConsumerWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('商品名: ${product?.name}'),
-                  Text('価格: ${product?.price}'),
+                  Expanded(
+                    child: Image.network(
+                      product.imageUrl,
+                      loadingBuilder: (context, widget, event) {
+                        if (event == null) {
+                          return widget;
+                        }
+                        return CircularProgressIndicator();
+                      },
+                      width: MediaQuery.of(context).size.width / 6,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  Text('商品名: ${product.name}'),
+                  Text('価格: ${product.price}'),
                   // ... その他の表示項目
                   SizedBox(height: 20),
                   QuantitySelector(
@@ -63,6 +76,12 @@ class ProductDetailPage extends ConsumerWidget {
                 Expanded(
                   child: Row(
                     children: [
+                      IconButton(
+                        icon: Icon(Icons.close),
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/home');
+                        },
+                      ),
                       IconButton(
                         onPressed: () async {
                           if (userId == null) {

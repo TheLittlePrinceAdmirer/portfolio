@@ -11,13 +11,21 @@ import '../providers/product_provider.dart';
 class CartProductGridView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final productList = ref.watch(productProvider);
-    final cartList = ref.watch(cartProvider);
     final user = FirebaseAuth.instance.currentUser;
     final userId = user?.uid;
+    final productList = ref.watch(productProvider);
+    final cartList = ref.watch(cartProvider);
+    // if (cartList == null) {
+    //   ref.read(cartProvider.notifier).getCart(userId!);
+    // }
+    // // ignore: unnecessary_null_comparison
+    // if (productList == null) {
+    //   ref.read(productProvider.notifier).fetchProducts();
+    // }
     // Data check for empty list
     // final isEmpty = productList.products.isEmpty;
-    if (cartList != null) {
+    // ignore: unnecessary_null_comparison
+    if (cartList == null || productList == null) {
       // カートが空の場合の処理
       return _buildEmptyListView(ref, userId);
     } else {
@@ -31,7 +39,7 @@ class CartProductGridView extends ConsumerWidget {
       child: ElevatedButton(
         onPressed: () async {
           await ref.read(cartProvider.notifier).getCart(userId!);
-          // ref.read(productProvider).fetchProducts();
+          ref.read(productProvider.notifier).fetchProducts();
         },
         child: Text('Refresh'),
       ),
@@ -44,7 +52,7 @@ class CartProductGridView extends ConsumerWidget {
     return RefreshIndicator(
       onRefresh: () async {
         await ref.read(cartProvider.notifier).getCart(cartList.userId);
-        // ref.read(productProvider).fetchProducts();
+        ref.read(productProvider.notifier).fetchProducts();
       },
       child: ListView.builder(
         itemCount: productIds.length,
@@ -52,21 +60,23 @@ class CartProductGridView extends ConsumerWidget {
           final productId = productIds[index];
           final product = productList.firstWhere(
               (product) => product.id == productId,
-              orElse: () => null);
+              orElse: () => Product(id: '', name: '', price: '', imageUrl: ''));
 
           return product != null
-              ? _buildCartItemTile(product, cartList.products[productId]!)
+              ? _buildCartItemTile(product, cartList.products[productId]!, ref)
               : SizedBox();
         },
       ),
     );
   }
 
-  Widget _buildCartItemTile(Product product, CartItem cartItem) {
+  Widget _buildCartItemTile(Product product, CartItem cartItem, WidgetRef ref) {
+    final quantity = ref.read(quantityProvider);
     return Card(
       child: ListTile(
         leading: SizedBox(
           width: 100,
+          height: 100,
           child: Image.network(
             product.imageUrl,
             fit: BoxFit.cover,
@@ -76,7 +86,8 @@ class CartProductGridView extends ConsumerWidget {
           product.name,
           style: TextStyle(fontSize: 16),
         ),
-        subtitle: Column(
+        subtitle: Expanded(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
@@ -93,12 +104,16 @@ class CartProductGridView extends ConsumerWidget {
             ),
           ],
         ),
-        trailing: QuantitySelector(
-          quantity: cartItem.quantity,
-          onChanged: (value) {
-            // 更新された数量を反映するロジックを実装する
-          },
-        ),
+      ),
+        // trailing: Container(
+        //   width: 100, // Specify the desired width
+        //   child: QuantitySelector(
+        //     quantity: cartItem.quantity,
+        //     onChanged: (value) {
+        //       ref.read(quantityProvider.notifier).state = value;
+        //     },
+        //   ),
+        // ),
       ),
     );
   }
