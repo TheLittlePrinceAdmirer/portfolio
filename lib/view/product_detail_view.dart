@@ -48,9 +48,8 @@ class ProductDetailPage extends ConsumerWidget {
                         }
                         return CircularProgressIndicator();
                       },
-                      width: MediaQuery.of(context).size.width / 6,
-                      fit: BoxFit.cover,
-                    ),
+                      width: MediaQuery.of(context).size.width * 0.8,
+fit: BoxFit.fitWidth,                    ),
                   ),
                   Text('商品名: ${product.name}'),
                   Text('価格: ${product.price}'),
