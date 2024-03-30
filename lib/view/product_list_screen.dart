@@ -12,8 +12,10 @@ class ProductListView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      body: ProductGridView(),
+    return ProviderScope(
+      child: Scaffold(
+        body: ProductGridView(),
+      ),
     );
   }
 }

@@ -13,3 +13,4 @@ final authProvider =
     StateNotifierProvider<AuthNotifier, String>((ref) {
   return AuthNotifier();
 });
+
